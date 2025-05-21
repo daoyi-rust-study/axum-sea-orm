@@ -1,5 +1,5 @@
 mod error;
-mod res;
+pub mod res;
 mod dto;
 mod entity;
 mod r#enum;
