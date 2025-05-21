@@ -1,3 +1,4 @@
+use crate::error::CusErr;
 use axum::Json;
 use axum::response::{IntoResponse, Response};
 use serde::Serialize;
@@ -18,11 +19,19 @@ impl<T> Res<T> {
             message: "success".to_string(),
         }
     }
-    pub fn error(code: i32, message: String) -> Self {
+    pub fn error(e: anyhow::Error) -> Self {
+        let code = if e.downcast_ref::<CusErr>().is_some() {
+            match e.downcast_ref::<CusErr>() {
+                Some(CusErr::AppRuleError(_)) => 400,
+                _ => 404,
+            }
+        } else {
+            500
+        };
         Self {
             code,
             data: None,
-            message,
+            message: e.to_string(),
         }
     }
 }
