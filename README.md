@@ -6,6 +6,8 @@ https://docs.rs/axum/0.8.4/axum/
 
 https://www.sea-ql.org/SeaORM/docs/index/
 
+https://github1s.com/lingdu1234/axum_admin
+
 ```shell
 cargo new axum-sea-orm 
 ```
@@ -40,4 +42,22 @@ DATABASE_URL=mysql://root:123456@localhost/axum-sea-orm
 ```
 ```shell
 sea-orm-cli migrate up
+```
+```shell
+cargo new entity --lib
+```
+```shell
+sea-orm-cli generate entity -o entity/src --with-serde both
+```
+
+![img.png](img.png)
+
+```shell
+cargo new api --lib
+cargo new core --lib
+cargo new middleware --lib 
+cargo new common --lib
+```
+```shell
+sea-orm-cli generate entity -o common/src/entity --with-serde both
 ```
