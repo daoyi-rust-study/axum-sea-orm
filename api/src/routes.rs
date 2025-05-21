@@ -1,6 +1,6 @@
 use axum::Router;
-use crate::blog;
+use crate::{blog, StateRouter};
 
-pub fn compose() -> Router {
+pub fn compose() -> StateRouter {
     Router::new().nest("/blog", blog::routes())
 }
