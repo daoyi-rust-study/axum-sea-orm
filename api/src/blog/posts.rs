@@ -1,8 +1,10 @@
 use crate::AppState;
 use anyhow::Error;
-use axum::Json;
-use axum::extract::{Query, State};
-use axum::response::IntoResponse;
+use axum::{
+    extract::{Json, Query, State},
+    response::IntoResponse,
+};
+use axum_extra::extract::WithRejection;
 use common::{error::CusErr, res::Res};
 use serde::{Deserialize, Serialize};
 
@@ -57,13 +59,17 @@ pub struct A {
 }
 
 // from query
-pub async fn from_query(Query(param): Query<A>) -> impl IntoResponse {
+pub async fn from_query(
+    WithRejection(Query(param), _): WithRejection<Query<A>, Res<()>>,
+) -> impl IntoResponse {
     let data = format!("param from query a = {}", param.a);
     Res::success(data)
 }
 
 // from body
-pub async fn from_body(Json(param): Json<A>) -> impl IntoResponse {
+pub async fn from_body(
+    WithRejection(Json(param), _): WithRejection<Json<A>, Res<()>>,
+) -> impl IntoResponse {
     let data = format!("param from body a = {}", param.a);
     Res::success(data)
 }

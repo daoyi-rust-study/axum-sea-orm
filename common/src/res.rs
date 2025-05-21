@@ -1,6 +1,9 @@
 use crate::error::CusErr;
-use axum::Json;
-use axum::response::{IntoResponse, Response};
+use axum::{
+    Json,
+    extract::rejection::{JsonRejection, QueryRejection},
+    response::{IntoResponse, Response},
+};
 use serde::Serialize;
 use serde_json::json;
 
@@ -40,5 +43,25 @@ impl<T: Serialize> IntoResponse for Res<T> {
     fn into_response(self) -> Response {
         let val = json!(self);
         Json(val).into_response()
+    }
+}
+
+impl From<JsonRejection> for Res<()> {
+    fn from(value: JsonRejection) -> Self {
+        Self {
+            code: value.status().as_u16().into(),
+            data: None,
+            message: value.body_text(),
+        }
+    }
+}
+
+impl From<QueryRejection> for Res<()> {
+    fn from(value: QueryRejection) -> Self {
+        Self {
+            code: value.status().as_u16().into(),
+            data: None,
+            message: value.body_text(),
+        }
     }
 }

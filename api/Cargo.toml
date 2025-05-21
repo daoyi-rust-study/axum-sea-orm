@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 axum = { workspace = true }
+axum-extra = {workspace = true}
 tokio = { workspace = true }
 common = { workspace = true }
 serde = { workspace = true }
