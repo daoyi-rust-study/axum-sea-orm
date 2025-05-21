@@ -7,3 +7,4 @@ edition = "2024"
 axum = { workspace = true }
 tokio = { workspace = true }
 common = {workspace = true}
+serde = { workspace = true }
