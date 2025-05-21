@@ -1,3 +1,7 @@
+[workspace]
+members = [
+    ".", "migration"
+]
 [package]
 name = "axum-sea-orm"
 version = "0.1.0"
