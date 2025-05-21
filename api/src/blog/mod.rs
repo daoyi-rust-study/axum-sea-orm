@@ -1,5 +1,8 @@
 use crate::StateRouter;
-use axum::{routing::get, Router};
+use axum::{
+    Router,
+    routing::{get, post},
+};
 
 pub mod posts;
 
@@ -8,5 +11,8 @@ pub fn routes() -> StateRouter {
 }
 
 fn posts_api() -> StateRouter {
-    Router::new().route("/", get(posts::index_handler))
+    Router::new()
+        .route("/", get(posts::index_handler))
+        .route("/query", get(posts::from_query))
+        .route("/body", post(posts::from_body))
 }

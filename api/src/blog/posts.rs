@@ -1,8 +1,10 @@
 use crate::AppState;
 use anyhow::Error;
-use axum::extract::State;
+use axum::Json;
+use axum::extract::{Query, State};
 use axum::response::IntoResponse;
 use common::{error::CusErr, res::Res};
+use serde::{Deserialize, Serialize};
 
 pub async fn index_handler(state: State<AppState>) -> impl IntoResponse {
     println!("{state:?}");
@@ -49,6 +51,25 @@ pub async fn index_handler(state: State<AppState>) -> impl IntoResponse {
     // (header_part, json_string)
 }
 
+#[derive(Deserialize, Serialize, Debug)]
+pub struct A {
+    a: String,
+}
+
+// from query
+pub async fn from_query(Query(param): Query<A>) -> impl IntoResponse {
+    let data = format!("param from query a = {}", param.a);
+    Res::success(data)
+}
+
+// from body
+pub async fn from_body(Json(param): Json<A>) -> impl IntoResponse {
+    let data = format!("param from body a = {}", param.a);
+    Res::success(data)
+}
+
 pub async fn test_service() -> anyhow::Result<String> {
-    Err(Error::from(CusErr::AppRuleError("触犯天条了！".into())))
+    Err(Error::from(CusErr::AppRuleError(
+        "对不起，触犯天条了！".into(),
+    )))
 }
