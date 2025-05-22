@@ -28,3 +28,4 @@ common = { path = "common" }
 sea-orm = { version = "1.1.11", features = ["sqlx-mysql", "runtime-tokio-rustls", "macros"] }
 anyhow = "1.0.98"
 thiserror = "2.0.12"
+core = {path = "core"}

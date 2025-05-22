@@ -6,6 +6,7 @@ use axum::{
 };
 use axum_extra::extract::WithRejection;
 use common::{error::CusErr, res::Res};
+use core::posts;
 use serde::{Deserialize, Serialize};
 
 pub async fn index_handler(state: State<AppState>) -> impl IntoResponse {
@@ -51,6 +52,22 @@ pub async fn index_handler(state: State<AppState>) -> impl IntoResponse {
     // )]);
     //
     // (header_part, json_string)
+}
+
+pub async fn create_first_posts(
+    state: State<AppState>,
+    WithRejection(Json(param), _): WithRejection<Json<CreatePostsParam>, Res<()>>,
+) -> impl IntoResponse {
+    let res = posts::create_first_posts(&state.db, param.title).await;
+    match res {
+        Ok(data) => Res::success(data),
+        Err(err) => Res::error(err),
+    }
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct CreatePostsParam {
+    title: String,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

@@ -15,4 +15,5 @@ fn posts_api() -> StateRouter {
         .route("/", get(posts::index_handler))
         .route("/query", get(posts::from_query))
         .route("/body", post(posts::from_body))
+        .route("/create_test", post(posts::create_first_posts))
 }

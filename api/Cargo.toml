@@ -11,3 +11,4 @@ common = { workspace = true }
 serde = { workspace = true }
 anyhow = { workspace = true }
 sea-orm = { workspace = true }
+core = {workspace = true}
