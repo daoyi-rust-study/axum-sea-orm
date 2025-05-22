@@ -3,6 +3,8 @@ mod routes;
 
 use axum::Router;
 use axum::routing::get;
+use common::db_conn::get_db_conn;
+use sea_orm::DatabaseConnection;
 
 #[tokio::main]
 pub async fn start() {
@@ -10,7 +12,7 @@ pub async fn start() {
     let port = std::env::var("PORT").unwrap_or_else(|_| "3000".to_string());
     // build our application with a single route
     let state = AppState {
-        name: "axum-sea-orm".to_string(),
+        db: get_db_conn().await,
     };
     let app = Router::new()
         .route("/", get(|| async { "Hello, World!" }))
@@ -37,7 +39,7 @@ pub async fn start() {
 #[derive(Debug, Clone)]
 pub struct AppState {
     // dbconnection:
-    name: String,
+    db: DatabaseConnection,
 }
 
 type StateRouter = Router<AppState>;
