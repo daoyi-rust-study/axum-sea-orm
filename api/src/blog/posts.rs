@@ -54,6 +54,12 @@ pub async fn index_handler(state: State<AppState>) -> impl IntoResponse {
     // (header_part, json_string)
 }
 
+/**
+ * @description: 创建第一篇文章
+ * @param {State<AppState>} state
+ * @param {WithRejection<Json<CreatePostsParam>, Res<()>>} param
+ * @return {*}
+ */
 pub async fn create_first_posts(
     state: State<AppState>,
     WithRejection(Json(param), _): WithRejection<Json<CreatePostsParam>, Res<()>>,
@@ -63,6 +69,77 @@ pub async fn create_first_posts(
         Ok(data) => Res::success(data),
         Err(err) => Res::error(err),
     }
+}
+
+/**
+ * @description: 查询列表
+ * @param {State<AppState>} state
+ * @return {*}
+ */
+pub async fn query_list(
+    state: State<AppState>,
+    WithRejection(Query(param), _): WithRejection<Query<QueryListParams>, Res<()>>,
+) -> impl IntoResponse {
+    println!("params: {:?}", param);
+    Res::<String>::empty_success()
+}
+/**
+ * @description: 查询单个文章
+ * @param {State<AppState>} state
+ * @return {*}
+ */
+pub async fn query_by_id(state: State<AppState>) -> impl IntoResponse {
+    Res::<String>::empty_success()
+}
+/**
+ * @description: 创建文章
+ * @param {State<AppState>} state
+ * @return {*}
+ */
+pub async fn create(state: State<AppState>) -> impl IntoResponse {
+    Res::<String>::empty_success()
+}
+/**
+ * @description: 更新文章
+ * @param {State<AppState>} state
+ * @return {*}
+ */
+pub async fn update(state: State<AppState>) -> impl IntoResponse {
+    Res::<String>::empty_success()
+}
+/**
+ * @description: 删除文章
+ * @param {State<AppState>} state
+ * @return {*}
+ */
+pub async fn delete_by_id(state: State<AppState>) -> impl IntoResponse {
+    Res::<String>::empty_success()
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ByIdParams {
+    /// ID 编号
+    id: i32,
+}
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UpdateParams {
+    id: i32,
+    text: Option<String>,
+    title: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CreateParams {
+    text: Option<String>,
+    title: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct QueryListParams {
+    page_number: Option<i32>,
+    page_size: Option<i32>,
+    /// 标题
+    title: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Debug)]

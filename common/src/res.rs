@@ -4,6 +4,7 @@ use axum::{
     extract::rejection::{JsonRejection, QueryRejection},
     response::{IntoResponse, Response},
 };
+use sea_orm::Iden;
 use serde::Serialize;
 use serde_json::json;
 
@@ -15,6 +16,13 @@ pub struct Res<T> {
 }
 
 impl<T> Res<T> {
+    pub fn empty_success() -> Self {
+        Self {
+            code: 200,
+            data: None,
+            message: "success".to_string(),
+        }
+    }
     pub fn success(data: T) -> Self {
         Self {
             code: 200,

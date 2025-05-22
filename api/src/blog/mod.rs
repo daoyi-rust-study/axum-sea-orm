@@ -1,7 +1,7 @@
 use crate::StateRouter;
 use axum::{
     Router,
-    routing::{get, post},
+    routing::{delete, get, post, put},
 };
 
 pub mod posts;
@@ -16,4 +16,9 @@ fn posts_api() -> StateRouter {
         .route("/query", get(posts::from_query))
         .route("/body", post(posts::from_body))
         .route("/create_test", post(posts::create_first_posts))
+        .route("/list", get(posts::query_list))
+        .route("/create", post(posts::create))
+        .route("/update", put(posts::update))
+        .route("/findById", get(posts::query_by_id))
+        .route("/deleteById", delete(posts::delete_by_id))
 }
